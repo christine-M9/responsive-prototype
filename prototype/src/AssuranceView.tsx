@@ -1,5 +1,3 @@
-// AssuranceView.tsx
-
 import React, { useState } from 'react';
 import Map from './Map';
 
@@ -19,7 +17,7 @@ const AssuranceView: React.FC = () => {
   return (
     <div>
       <h1>Service Assurance Map View</h1>
-      <Map data={enterprises} onMarkerClick={handleMarkerClick} />
+      <Map data={enterprises} onMarkerClick={handleMarkerClick} selectedEnterprise={selectedEnterprise} />
       {selectedEnterprise && <p>Selected Enterprise: {selectedEnterprise}</p>}
     </div>
   );
