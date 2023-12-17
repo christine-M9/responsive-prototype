@@ -1,0 +1,25 @@
+/* LandingPage.css */
+.landing-page-card {
+  text-decoration: none;
+  padding: 16px;
+  margin: 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  background-color: #fff;
+  border-radius: 8px;
+}
+
+.landing-page-card:hover {
+  background-color: #eee;
+}
+
+.card-content {
+  border-radius: 8px;
+  padding: 16px;
+}
+
+/* Hover effect styles */
+.hover-effect:hover {
+  background-color: #eee;
+}
