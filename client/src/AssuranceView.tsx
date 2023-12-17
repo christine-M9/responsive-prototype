@@ -1,7 +1,9 @@
+// AssuranceView.tsx
+
 import React, { useState } from 'react';
 import Tree from 'react-d3-tree';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import { TextField, Button, Typography } from '@material-ui/core';
+import { Button, TextField, Typography } from '@material-ui/core';
+import Map from './Map'; // Make sure to provide the correct path to your Map component
 
 interface TreeNode {
   id: string;
@@ -97,17 +99,34 @@ const AssuranceView: React.FC = () => {
   };
 
   return (
-    <div>
-      <div>
-        <button onClick={() => setIsTreeView(true)}>Switch to Tree View</button>
-        <button onClick={() => setIsTreeView(false)}>Switch to Map View</button>
+    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
+      <div style={{ marginBottom: '20px' }}>
+        <Button
+          variant="contained"
+          color="primary"
+          style={{ marginRight: '10px' }}
+          onClick={() => setIsTreeView(true)}
+        >
+          Switch to Tree View
+        </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => setIsTreeView(false)}
+        >
+          Switch to Map View
+        </Button>
       </div>
 
       {isTreeView ? (
-        <div>
-          <div>
-            <button onClick={handleZoomIn}>Zoom In</button>
-            <button onClick={handleZoomOut}>Zoom Out</button>
+        <div style={{ marginTop: '20px' }}>
+          <div style={{ marginBottom: '10px' }}>
+            <Button variant="contained" color="primary" onClick={handleZoomIn} style={{ marginRight: '10px' }}>
+              Zoom In
+            </Button>
+            <Button variant="contained" color="primary" onClick={handleZoomOut}>
+              Zoom Out
+            </Button>
           </div>
           <div style={{ width: '100%', height: '500px' }}>
             <Tree data={treeData} orientation="vertical" translate={{ x: 100, y: 100 }} />
@@ -115,50 +134,39 @@ const AssuranceView: React.FC = () => {
         </div>
       ) : (
         <>
-          <MapContainer center={[0, 0]} zoom={2} style={{ height: '400px', width: '100%' }}>
-            <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-            {enterprises
-              .filter((enterprise) => enterprise.name.toLowerCase().includes(searchTerm.toLowerCase()))
-              .filter((enterprise) => !industryFilter || enterprise.industry === industryFilter)
-              .map((item) => (
-                <Marker
-                  key={item.id}
-                  position={[item.lat, item.lng]}
-                  eventHandlers={{ click: () => handleMarkerClick(item.id) }}
-                >
-                  <Popup>
-                    {item.name}
-                    <br />
-                    <button onClick={() => setIsEditFormOpen(true)}>Edit Address</button>
-                  </Popup>
-                </Marker>
-              ))}
-          </MapContainer>
-          {selectedEnterprise && <p>Selected Enterprise: {selectedEnterprise}</p>}
-          <div>
-            <TextField
-              label="Search Enterprise"
-              variant="outlined"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-            <Button variant="contained" color="primary" onClick={handleFilter}>
-              Filter
-            </Button>
-          </div>
-          <div>
-            <Button variant="contained" color="primary" onClick={handleMapZoomIn}>
-              Zoom In
-            </Button>
-            <Button variant="contained" color="primary" onClick={handleMapZoomOut}>
-              Zoom Out
-            </Button>
+          <Map
+            data={enterprises}
+            onMarkerClick={handleMarkerClick}
+            selectedEnterprise={selectedEnterprise}
+            onPopupEditClick={() => setIsEditFormOpen(true)}
+          />
+          {selectedEnterprise && <p style={{ marginTop: '10px' }}>Selected Enterprise: {selectedEnterprise}</p>}
+          <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'space-between' }}>
+            <div>
+              <TextField
+                label="Search Enterprise"
+                variant="outlined"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+              <Button variant="contained" color="primary" onClick={handleFilter} style={{ marginLeft: '10px' }}>
+                Filter
+              </Button>
+            </div>
+            <div>
+              <Button variant="contained" color="primary" onClick={handleMapZoomIn} style={{ marginRight: '10px' }}>
+                Zoom In
+              </Button>
+              <Button variant="contained" color="primary" onClick={handleMapZoomOut}>
+                Zoom Out
+              </Button>
+            </div>
           </div>
         </>
       )}
 
       {isEditFormOpen && (
-        <div>
+        <div style={{ marginTop: '20px' }}>
           <Typography variant="h5">Edit Enterprise</Typography>
           <TextField
             label="New Address"
@@ -166,8 +174,9 @@ const AssuranceView: React.FC = () => {
             fullWidth
             value={newAddress}
             onChange={handleAddressChange}
+            style={{ marginTop: '10px' }}
           />
-          <Button variant="contained" color="primary" onClick={handleSaveAddress}>
+          <Button variant="contained" color="primary" onClick={handleSaveAddress} style={{ marginTop: '10px' }}>
             Save
           </Button>
         </div>

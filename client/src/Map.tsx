@@ -1,4 +1,5 @@
 // Map.tsx
+
 import React from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
@@ -7,7 +8,7 @@ interface MapProps {
   data: Array<{ id: string; lat: number; lng: number; name: string }>;
   onMarkerClick: (id: string) => void;
   selectedEnterprise: string | null;
-  onPopupEditClick: (id: string) => void;
+  onPopupEditClick: () => void;
 }
 
 const Map: React.FC<MapProps> = ({ data, onMarkerClick, selectedEnterprise, onPopupEditClick }) => {
@@ -20,12 +21,12 @@ const Map: React.FC<MapProps> = ({ data, onMarkerClick, selectedEnterprise, onPo
   };
 
   const handlePopupEditClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    const id = event.currentTarget.getAttribute('data-id') as string;
-    onPopupEditClick(id);
+    event.preventDefault();
+    onPopupEditClick();
   };
 
   return (
-    <MapContainer center={defaultCenter} zoom={defaultZoom} style={{ height: '400px', width: '100%' }}>
+    <MapContainer center={defaultCenter} zoom={defaultZoom} style={{ height: '400px', width: '100%', marginBottom: '20px' }}>
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
       {data.map((item) => {
         const markerIcon = new L.Icon({
@@ -45,7 +46,7 @@ const Map: React.FC<MapProps> = ({ data, onMarkerClick, selectedEnterprise, onPo
             <Popup>
               {item.name}
               <br />
-              <button onClick={handlePopupEditClick} data-id={item.id}>
+              <button onClick={handlePopupEditClick} style={{ marginTop: '5px', cursor: 'pointer' }}>
                 Edit
               </button>
             </Popup>
