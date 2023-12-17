@@ -6,13 +6,17 @@ const LandingPage: React.FC = () => {
     <div>
       <h1>Landing Page</h1>
       <div>
-        <Link to="/user-management">
-          <div>User Management</div>
+        <Link to="/user-management" style={{ textDecoration: 'none', padding: '16px', margin: '8px', textAlign: 'center', cursor: 'pointer', transition: 'background-color 0.3s' }}>
+          <div style={{ backgroundColor: '#fff', borderRadius: '8px', padding: '16px' }}>
+            <h3>User Management</h3>
+          </div>
         </Link>
-        <Link to="/assurance">
-          <div>Service Assurance</div>
+        <Link to="/assurance" style={{ textDecoration: 'none', padding: '16px', margin: '8px', textAlign: 'center', cursor: 'pointer', transition: 'background-color 0.3s' }}>
+          <div style={{ backgroundColor: '#fff', borderRadius: '8px', padding: '16px' }}>
+            <h3>Service Assurance</h3>
+          </div>
         </Link>
-        {/* Add other cards as needed */}
+        {/* Add other links as needed */}
       </div>
     </div>
   );
