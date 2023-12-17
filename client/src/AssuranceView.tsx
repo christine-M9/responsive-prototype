@@ -56,6 +56,7 @@ const AssuranceView: React.FC = () => {
   const [isEditFormOpen, setIsEditFormOpen] = useState<boolean>(false);
   const [editFormData, setEditFormData] = useState<Enterprise | null>(null);
   const [enterprises, setEnterprises] = useState<Enterprise[]>(initialEnterprisesData);
+  const [newAddress, setNewAddress] = useState<string>('');
 
   const handleMarkerClick = (id: string) => {
     setSelectedEnterprise(id);
@@ -74,18 +75,26 @@ const AssuranceView: React.FC = () => {
     setTreeZoom(treeZoom / 1.2);
   };
 
-  const handleEditAddress = () => {
-    // Implement logic to edit enterprise address
-    setIsEditFormOpen(true);
+  const handleFilter = () => {
+    // Implement filter functionality based on searchTerm
   };
 
-  const handleEditFormClose = () => {
+  const handleMapZoomIn = () => {
+    // Implement map zoom in functionality
+  };
+
+  const handleMapZoomOut = () => {
+    // Implement map zoom out functionality
+  };
+
+  const handleAddressChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setNewAddress(event.target.value);
+  };
+
+  const handleSaveAddress = () => {
+    // Implement logic to save the edited address
     setIsEditFormOpen(false);
   };
-
-  const filteredEnterprises = enterprises
-    .filter((enterprise) => enterprise.name.toLowerCase().includes(searchTerm.toLowerCase()))
-    .filter((enterprise) => !industryFilter || enterprise.industry === industryFilter);
 
   return (
     <div>
@@ -101,32 +110,50 @@ const AssuranceView: React.FC = () => {
             <button onClick={handleZoomOut}>Zoom Out</button>
           </div>
           <div style={{ width: '100%', height: '500px' }}>
-            <Tree
-              data={treeData}
-              orientation="vertical"
-              translate={{ x: 100, y: 100 }}
-            />
+            <Tree data={treeData} orientation="vertical" translate={{ x: 100, y: 100 }} />
           </div>
         </div>
       ) : (
         <>
           <MapContainer center={[0, 0]} zoom={2} style={{ height: '400px', width: '100%' }}>
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-            {filteredEnterprises.map((item) => (
-              <Marker
-                key={item.id}
-                position={[item.lat, item.lng]}
-                eventHandlers={{ click: () => handleMarkerClick(item.id) }}
-              >
-                <Popup>
-                  {item.name}
-                  <br />
-                  <button onClick={handleEditAddress}>Edit Address</button>
-                </Popup>
-              </Marker>
-            ))}
+            {enterprises
+              .filter((enterprise) => enterprise.name.toLowerCase().includes(searchTerm.toLowerCase()))
+              .filter((enterprise) => !industryFilter || enterprise.industry === industryFilter)
+              .map((item) => (
+                <Marker
+                  key={item.id}
+                  position={[item.lat, item.lng]}
+                  eventHandlers={{ click: () => handleMarkerClick(item.id) }}
+                >
+                  <Popup>
+                    {item.name}
+                    <br />
+                    <button onClick={() => setIsEditFormOpen(true)}>Edit Address</button>
+                  </Popup>
+                </Marker>
+              ))}
           </MapContainer>
           {selectedEnterprise && <p>Selected Enterprise: {selectedEnterprise}</p>}
+          <div>
+            <TextField
+              label="Search Enterprise"
+              variant="outlined"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <Button variant="contained" color="primary" onClick={handleFilter}>
+              Filter
+            </Button>
+          </div>
+          <div>
+            <Button variant="contained" color="primary" onClick={handleMapZoomIn}>
+              Zoom In
+            </Button>
+            <Button variant="contained" color="primary" onClick={handleMapZoomOut}>
+              Zoom Out
+            </Button>
+          </div>
         </>
       )}
 
@@ -137,9 +164,10 @@ const AssuranceView: React.FC = () => {
             label="New Address"
             variant="outlined"
             fullWidth
-            // Add onChange and value props for handling form input
+            value={newAddress}
+            onChange={handleAddressChange}
           />
-          <Button variant="contained" color="primary" onClick={handleEditFormClose}>
+          <Button variant="contained" color="primary" onClick={handleSaveAddress}>
             Save
           </Button>
         </div>
