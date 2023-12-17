@@ -13,7 +13,6 @@ const AssuranceView: React.FC = () => {
   ];
 
   const handleMarkerClick = (id: string) => {
-    // Handle marker click, for example, show details in a popup
     setSelectedEnterprise(id);
   };
 
@@ -21,7 +20,6 @@ const AssuranceView: React.FC = () => {
     <div>
       <h1>Service Assurance Map View</h1>
       <Map data={enterprises} onMarkerClick={handleMarkerClick} />
-      {/* Add other components or features as needed */}
       {selectedEnterprise && <p>Selected Enterprise: {selectedEnterprise}</p>}
     </div>
   );
