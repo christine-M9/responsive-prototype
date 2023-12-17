@@ -1,9 +1,10 @@
+// Map.tsx
 import React from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet'; // Make sure to import the 'leaflet' library
 
 interface MapProps {
-  data: Array<{ id: string; lat: number; lng: number; name: string }>;
+  data: Array<{ id: string; lat: number; lng: number; name: string; industry: string }>;
   onMarkerClick: (id: string) => void;
   selectedEnterprise: string | null;
 }
@@ -15,6 +16,12 @@ const Map: React.FC<MapProps> = ({ data, onMarkerClick, selectedEnterprise }) =>
   const handleMarkerClick = (event: L.LeafletMouseEvent) => {
     const id = event.target.options.id as string;
     onMarkerClick(id);
+  };
+
+  const handlePopupEditClick = (id: string) => {
+    // Implement your logic for opening an edit form for the selected enterprise
+    // You can use state to manage the form data
+    console.log(`Edit clicked for enterprise with ID ${id}`);
   };
 
   return (
@@ -35,7 +42,14 @@ const Map: React.FC<MapProps> = ({ data, onMarkerClick, selectedEnterprise }) =>
             eventHandlers={{ click: handleMarkerClick }}
             icon={markerIcon}
           >
-            <Popup>{item.name}</Popup>
+            <Popup>
+              <div>
+                <p>{item.name}</p>
+                <p>Industry: {item.industry}</p>
+                {/* Add other enterprise details */}
+                <button onClick={() => handlePopupEditClick(item.id)}>Edit Address</button>
+              </div>
+            </Popup>
           </Marker>
         );
       })}
