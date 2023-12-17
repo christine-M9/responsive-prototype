@@ -1,15 +1,16 @@
 // Map.tsx
 import React from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import L from 'leaflet'; // Make sure to import the 'leaflet' library
+import L from 'leaflet';
 
 interface MapProps {
-  data: Array<{ id: string; lat: number; lng: number; name: string; industry: string }>;
+  data: Array<{ id: string; lat: number; lng: number; name: string }>;
   onMarkerClick: (id: string) => void;
   selectedEnterprise: string | null;
+  onPopupEditClick: (id: string) => void;
 }
 
-const Map: React.FC<MapProps> = ({ data, onMarkerClick, selectedEnterprise }) => {
+const Map: React.FC<MapProps> = ({ data, onMarkerClick, selectedEnterprise, onPopupEditClick }) => {
   const defaultCenter: L.LatLngExpression = [0, 0];
   const defaultZoom = 2;
 
@@ -18,10 +19,9 @@ const Map: React.FC<MapProps> = ({ data, onMarkerClick, selectedEnterprise }) =>
     onMarkerClick(id);
   };
 
-  const handlePopupEditClick = (id: string) => {
-    // Implement your logic for opening an edit form for the selected enterprise
-    // You can use state to manage the form data
-    console.log(`Edit clicked for enterprise with ID ${id}`);
+  const handlePopupEditClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const id = event.currentTarget.getAttribute('data-id') as string;
+    onPopupEditClick(id);
   };
 
   return (
@@ -43,12 +43,11 @@ const Map: React.FC<MapProps> = ({ data, onMarkerClick, selectedEnterprise }) =>
             icon={markerIcon}
           >
             <Popup>
-              <div>
-                <p>{item.name}</p>
-                <p>Industry: {item.industry}</p>
-                {/* Add other enterprise details */}
-                <button onClick={() => handlePopupEditClick(item.id)}>Edit Address</button>
-              </div>
+              {item.name}
+              <br />
+              <button onClick={handlePopupEditClick} data-id={item.id}>
+                Edit
+              </button>
             </Popup>
           </Marker>
         );
