@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Tree from 'react-d3-tree';
 import { Button, TextField, Typography } from '@material-ui/core';
-import Map from './Map'; // Make sure to provide the correct path to your Map component
+import Map from './Map'; 
 
 interface TreeNode {
   id: string;
@@ -23,7 +23,7 @@ interface Enterprise {
 const initialEnterprisesData: Enterprise[] = [
   { id: '1', lat: 37.7749, lng: -122.4194, name: 'Enterprise 1', industry: 'tech', address: '123 Main St' },
   { id: '2', lat: 34.0522, lng: -118.2437, name: 'Enterprise 2', industry: 'finance', address: '456 Oak St' },
-  // Add more data as needed
+ 
 ];
 
 const treeData: TreeNode = {
@@ -66,7 +66,7 @@ const AssuranceView: React.FC = () => {
 
   const handleNodeClick = (nodeData: any) => {
     setSelectedEnterprise(nodeData.name);
-    // Additional logic to handle highlighting descendants
+   
   };
 
   const handleZoomIn = () => {
@@ -78,15 +78,15 @@ const AssuranceView: React.FC = () => {
   };
 
   const handleFilter = () => {
-    // Implement filter functionality based on searchTerm
+    
   };
 
   const handleMapZoomIn = () => {
-    // Implement map zoom in functionality
+    
   };
 
   const handleMapZoomOut = () => {
-    // Implement map zoom out functionality
+    
   };
 
   const handleAddressChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -94,7 +94,7 @@ const AssuranceView: React.FC = () => {
   };
 
   const handleSaveAddress = () => {
-    // Implement logic to save the edited address
+   
     setIsEditFormOpen(false);
   };
 

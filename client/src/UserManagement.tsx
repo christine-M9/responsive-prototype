@@ -15,13 +15,13 @@ interface UserGroup {
 const users: User[] = [
   { id: '1', name: 'John Doe' },
   { id: '2', name: 'Jane Smith' },
-  // Add more users as needed
+ 
 ];
 
 const userGroups: UserGroup[] = [
   { id: 'group1', groupName: 'Group A', members: [users[0], users[1]] },
   { id: 'group2', groupName: 'Group B', members: [users[1] /* Add more members as needed */] },
-  // Add more user groups as needed
+ 
 ];
 
 const UserManagement: React.FC = () => {
@@ -58,7 +58,7 @@ const UserManagement: React.FC = () => {
         </ul>
       </div>
 
-      {/* Add a link to navigate back to the landing page */}
+      
       <Link to="/" style={{ display: 'block', marginTop: '20px', color: '#007bff', textDecoration: 'none', textAlign: 'center' }}>
         BACK
       </Link>
